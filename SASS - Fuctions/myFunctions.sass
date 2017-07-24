@@ -1,0 +1,77 @@
+//I funksiya reng deyishmek uchun.
+
+@function colorpicker ($background, $val) {
+    @return ( $background + $val );
+    }
+
+.reng { color: colorpicker(black + 40, 100);}
+
+//II funskiya reng deyishmek uchun.
+
+@function colorpicker ($background) {
+    @if lightness($background) < 50% {
+    @return lighten($background, 70%);
+        } @else {
+        @return darken ($background, 70%);
+        }
+    }
+
+.reng { color: colorpicker(white);}
+
+//IV funskiya reng deyishmek uchun.
+
+@each $p in (
+    one black,
+    two black + 20,
+    three white,
+    four black - 40
+    ) {
+    .#{nth($p,1)} {background:nth($p,2);color: colorpicker(nth($p,2));}
+    }
+
+//V funskiya dinamik ölçü dəyişmək üçün.
+    
+$grid-width: 40px;
+$gutter-width: 10px;
+
+@function grid-width($n) {
+  @return $n * $grid-width + ($n - 1) * $gutter-width;
+}
+
+#sidebar { width: grid-width(5); }
+Becomes:
+
+#sidebar {
+  width: 240px; }
+  
+//VI funskiya background-image qoymaq üçün uchun.
+  
+@each $animal in puma, sea-slug, egret, salamander {
+  .#{$animal}-icon {
+    background-image: url('/images/#{$animal}.png');
+  }
+}
+
+.puma-icon {
+  background-image: url("/images/puma.png");
+}
+
+.sea-slug-icon {
+  background-image: url("/images/sea-slug.png");
+}
+
+.egret-icon {
+  background-image: url("/images/egret.png");
+}
+
+.salamander-icon {
+  background-image: url("/images/salamander.png");
+}
+
+//VII funskiya pixeldən faizə keçmək uchun.
+ 
+@function calc-percent($target, $container) {
+  @return ($target / $container) * 100%;
+}
+
+650px / 1000px = 65% 
